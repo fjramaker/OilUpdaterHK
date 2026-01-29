@@ -1,0 +1,285 @@
+# Encyclopedia prompt
+You are an expert assistant specializing in essential oils, consumer health communication, and structured data extraction.
+
+Task:
+Generate a structured JSON entry for a essential oil products for use in a consumer website and oil blending tool.
+
+Input:
+- Oil name JSON
+
+Output rules:
+- Output VALID JSON ONLY
+- Use 'type' and 'typeCN' fields for the category
+- Follow the provided schema exactly
+- Do not invent new benefit categories
+- Do not use poetic or vague language
+- Do not make disease treatment claims
+
+Steps:
+1. Usage
+For aromatic, topical, and internal use:
+- Indicate whether use is allowed
+- Assign intent: primary, secondary, or supportive
+- Add brief, practical notes
+2. General Benefits
+For EACH of the following canonical categories:
+sleep, stress, mood, pain, skin, digestive, energy, respiratory, immune, focus
+- Assign a score from 1 to 5
+- Write a concise, factual summary (max 20 words)
+3. Atomic Effects
+List 2–5 atomic effects.
+Each atomic effect MUST:
+- Reference a biological system
+- Describe a directional functional change
+- Explain one or more general benefit scores
+4. Primary Compounds
+List the most commonly referenced major constituents if available.
+5. Evidence
+- Set evidence.level to low, moderate, or strong
+- Set verifiedSource to ‘PIP’
+6. References
+Include:
+- doTERRA product page URL
+- doTERRA PIP URL
+
+Constraints:
+- Plain, confident language
+- Consumer-safe phrasing
+- No citations, no footnotes, no disclaimers
+- No references to FDA or disease claims
+
+With this schema:
+‘
+{
+  ‘itemNo’: ‘string’,
+  ‘name’: ‘string’,
+  ‘size’: ‘number’,
+  ‘unit’: ‘string’,
+
+  ‘prices’: {
+    ‘retail_hkd’: ‘number’,
+    ‘member_hkd’: ‘number’
+  },
+
+  ‘category’: ‘Single Oil | Personal Care | doTERRA Women | Essential Oil Blends | Touch | Wellness | Supplements | Personal Care | Others’,
+
+  ‘usage’: {
+    ‘aromatic’: {
+      ‘allowed’: true,
+      ‘intent’: ‘primary | secondary | supportive’,
+      ‘notes’: ‘string | null’
+    },
+    ‘topical’: {
+      ‘allowed’: true,
+      ‘intent’: ‘primary | secondary | supportive’,
+      ‘dilutionGuidance’: ‘string | null’,
+      ‘notes’: ‘string | null’
+    },
+    ‘internal’: {
+      ‘allowed’: false,
+      ‘intent’: ‘primary | secondary | supportive | null’,
+      ‘notes’: ‘string | null’
+    }
+  },
+
+  ‘generalBenefits’: {
+    ‘sleep’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘stress’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘mood’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘pain’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘skin’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘digestive’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘energy’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘respiratory’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘immune’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    },
+    ‘focus’: {
+      ‘score’: 1,
+      ‘summary’: ‘string’
+    }
+  },
+
+  ‘atomicEffects’: [
+    {
+      ‘mechanism’: ‘string’,
+      ‘domain’: ‘nervous_system | cardiovascular | endocrine | skin_barrier | digestive | respiratory | immune’,
+      ‘description’: ‘string’
+    }
+  ],
+
+  ‘primaryCompounds’: [
+    ‘string’
+  ],
+
+  ‘evidence’: {
+    ‘level’: ‘low | moderate | strong’,
+    ‘verifiedSource’: ‘PIP’
+  },
+
+  ‘references’: {
+    ‘productPage’: ‘url | null’,
+    ‘PIP’: ‘url | null’
+  }
+}
+‘
+
+Here is what an example looks like:
+‘
+{
+  ‘itemNo’: ‘30110001’,
+  ‘name’: ‘Lavender’,
+  ‘size’: 15,
+  ‘unit’: ‘mL’,
+
+  ‘prices’: {
+    ‘retail_hkd’: 520,
+    ‘member_hkd’: 310
+  },
+
+  ‘category’: ‘Single Oil’,
+
+  ‘usage’: {
+    ‘aromatic’: {
+      ‘allowed’: true,
+      ‘intent’: ‘primary’,
+      ‘notes’: ‘Commonly diffused for relaxation and sleep support.’
+    },
+    ‘topical’: {
+      ‘allowed’: true,
+      ‘intent’: ‘secondary’,
+      ‘dilutionGuidance’: ‘Dilute for sensitive skin.’,
+      ‘notes’: ‘Often applied to temples or neck.’
+    },
+    ‘internal’: {
+      ‘allowed’: true,
+      ‘intent’: ‘supportive’,
+      ‘notes’: ‘Use only as directed.’
+    }
+  },
+
+  ‘generalBenefits’: {
+    ‘sleep’: {
+      ‘score’: 5,
+      ‘summary’: ‘Strong support for relaxation and restful sleep.’
+    },
+    ‘stress’: {
+      ‘score’: 5,
+      ‘summary’: ‘Helps calm the nervous system.’
+    },
+    ‘mood’: {
+      ‘score’: 5,
+      ‘summary’: ‘Supports emotional balance.’
+    },
+    ‘pain’: {
+      ‘score’: 3,
+      ‘summary’: ‘May ease mild tension.’
+    },
+    ‘skin’: {
+      ‘score’: 4,
+      ‘summary’: ‘Soothes irritated skin.’
+    },
+    ‘digestive’: {
+      ‘score’: 2,
+      ‘summary’: ‘Indirect support through relaxation.’
+    },
+    ‘energy’: {
+      ‘score’: 1,
+      ‘summary’: ‘Not stimulating.’
+    },
+    ‘respiratory’: {
+      ‘score’: 2,
+      ‘summary’: ‘Gentle inhalation support.’
+    },
+    ‘immune’: {
+      ‘score’: 3,
+      ‘summary’: ‘Supports general wellness.’
+    },
+    ‘focus’: {
+      ‘score’: 2,
+      ‘summary’: ‘Improves focus indirectly by reducing stress.’
+    }
+  },
+
+  ‘atomicEffects’: [
+    {
+      ‘mechanism’: ‘Parasympathetic nervous system activation’,
+      ‘domain’: ‘nervous_system’,
+      ‘description’: ‘Associated with reduced sympathetic activity and increased relaxation.’
+    },
+    {
+      ‘mechanism’: ‘Cortisol modulation’,
+      ‘domain’: ‘endocrine’,
+      ‘description’: ‘Observed reductions in stress hormone levels.’
+    },
+    {
+      ‘mechanism’: ‘Mild antimicrobial action’,
+      ‘domain’: ‘immune’,
+      ‘description’: ‘Demonstrated activity against certain bacteria and fungi.’
+    }
+  ],
+
+  ‘primaryCompounds’: [
+    ‘Linalool’,
+    ‘Linalyl acetate’
+  ],
+
+  ‘evidence’: {
+    ‘level’: ‘strong’,
+    ‘verifiedSource’: ‘PIP’
+  },
+
+  ‘references’: {
+    ‘productPage’: ‘https://www.doterra.com/US/en/p/lavender-oil’,
+    ‘PIP’: ‘https://media.doterra.com/us/en/pips/doterra-lavender-essential-oil.pdf’
+  }
+}
+‘
+# PIP prompt
+You are validating Product Information Page (PIP) links for dōTERRA essential oils.
+
+Input: JSON list of products with id, name, and pip URL.
+
+Task:
+1) Detect invalid, broken, or suspicious PIP URLs.
+2) If the URL looks wrong, propose the most likely correct dōTERRA PIP link.
+3) Do NOT invent unrelated URLs. Only output a corrected URL if highly confident.
+4) If uncertain, set pip = null.
+5) Do not change id or name.
+
+Output:
+Return the same JSON structure, corrected.
+
+Notes:
+- dōTERRA PIP URLs usually contain:
+  "media.doterra.com"
+  "flyers"
+  product name in lowercase
+  "product-information-page.pdf"
+- Keep formatting identical.
+- Do not hallucinate URLs. Prefer null over guessing.
